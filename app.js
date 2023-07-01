@@ -74,6 +74,12 @@ app.post('/auth/register', async (req, res) => {
     return res.status(422).json({ msg: "As senhas não conferem!" });
   }
 
+  // Verificar formato de e-mail
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(422).json({ msg: "O e-mail informado é inválido!" });
+  }
+
   try {
     // Verificar se o usuário já existe
     const userExists = await User.findOne({ email });
